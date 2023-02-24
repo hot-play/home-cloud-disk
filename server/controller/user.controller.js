@@ -1,4 +1,8 @@
-const dataBase = require("../config/bataBase-config");const bcrypt = require("bcrypt");
+const dataBase = require("../config/bataBase-config");
+const config = require("../config/config.json");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
 class UserController {
     async createUser(req, res) {
         const { login, password } = req.body;
@@ -41,18 +45,35 @@ class UserController {
     async authorizationUser(req, res) {
         const { login, password } = req.body;
 
-        const findUser = await dataBase.query(
+        const user = await dataBase.query(
             "select * from users where login = $1",
             [login.toString().toLowerCase()]
         );
-        const isValidPassword = bcrypt.compareSync(
-            password,
-            findUser.rows[0].password
-        );
-        if (isValidPassword) {
-            res.json({ result: true });
+        if (user.rows[0]?.login) {
+            const isValidPassword = bcrypt.compareSync(
+                password,
+                user.rows[0].password
+            );
+            if (isValidPassword) {
+                const token = jwt.sign(
+                    { id: user.rows[0].id },
+                    config.secretKey,
+                    { expiresIn: "1h" }
+                );
+                res.json({
+                    token,
+                    user: {
+                        id: user.rows[0].id,
+                        login: user.rows[0].login,
+                        diskSpace: user.rows[0].diskspace,
+                        usedSpace: user.rows[0].usedspace,
+                    },
+                });
+            } else {
+                res.json({ message: "Неверный пароль" });
+            }
         } else {
-            res.json({ result: false });
+            res.json({ message: "Пользователь не найден" });
         }
     }
 }
