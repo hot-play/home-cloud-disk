@@ -20,7 +20,7 @@ class UserController {
                 "insert into users (login, password) values ($1, $2) returning *",
                 [login.toString().toLowerCase(), hashPassword]
             );
-            res.json(user.rows[0]);
+            res.json({ message: "Аккаунт создан" });
         }
     }
 
