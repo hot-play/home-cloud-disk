@@ -4,7 +4,8 @@ create table files(
      type varchar(255),
      link varchar(255),
      size decimal,
+     path varchar(255),
      user_id integer,
-     parent_id decimal,
+     parent_id integer,
      foreign key (user_id) references users (id)
 );

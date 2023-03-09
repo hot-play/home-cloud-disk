@@ -2,12 +2,18 @@ const dataBase = require("../config/bataBase-config");
 const config = require("../config/config.json");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const fileService = require("../services/fileService.js");
 
 class UserController {
     async createUser(req, res) {
         const { login, password } = req.body;
+        if (login.length < 3 || login.length > 20) {
+            res.json({ message: "Логин некорректен" });
+        }
+        if (password.length < 3 || password.length > 20) {
+            res.json({ message: "Пароль некорректен" });
+        }
         const hashPassword = await bcrypt.hash(password, 10);
-
         const findUser = await dataBase.query(
             "select * from users where login = $1",
             [login.toString().toLowerCase()]
@@ -20,6 +26,11 @@ class UserController {
                 "insert into users (login, password) values ($1, $2) returning *",
                 [login.toString().toLowerCase(), hashPassword]
             );
+
+            await fileService.createFolder({
+                user_id: user.rows[0].id,
+                name: "",
+            });
             res.json({ message: "Аккаунт создан" });
         }
     }
@@ -74,6 +85,28 @@ class UserController {
             }
         } else {
             res.json({ message: "Пользователь не найден" });
+        }
+    }
+    async tokenAuthorizationUser(req, res) {
+        const { id } = req.user;
+        const user = await dataBase.query("select * from users where id = $1", [
+            id,
+        ]);
+        if (user?.rows[0]) {
+            const token = jwt.sign({ id: user.rows[0].id }, config.secretKey, {
+                expiresIn: "1h",
+            });
+            res.json({
+                token,
+                user: {
+                    id: user.rows[0].id,
+                    login: user.rows[0].login,
+                    diskSpace: user.rows[0].diskspace,
+                    usedSpace: user.rows[0].usedspace,
+                },
+            });
+        } else {
+            res.json({ message: "Токен не проверен" });
         }
     }
 }

@@ -1,12 +1,15 @@
-import React, { useState } from "react";import Container from "react-bootstrap/esm/Container";
+import React, { useState } from "react";
+import Container from "react-bootstrap/esm/Container";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
-import { registration } from "../../action/user";
+import { authorization } from "../../action/user";
+import { useDispatch } from "react-redux";
 
-export const RegistrationComponent = () => {
+export const AuthorizationComponent = () => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
+    const dispatch = useDispatch();
     return (
         <Container className="col-4 mt-5">
             <InputGroup className="mb-3">
@@ -30,9 +33,9 @@ export const RegistrationComponent = () => {
             </InputGroup>
             <Button
                 className="dark"
-                onClick={() => registration(login, password)}
+                onClick={() => dispatch(authorization(login, password))}
             >
-                Регистрация
+                Войти
             </Button>
         </Container>
     );
