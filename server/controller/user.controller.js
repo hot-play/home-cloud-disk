@@ -1,5 +1,5 @@
-const dataBase = require("../config/bataBase-config");
-const config = require("../config/config.json");
+const dataBase = require("../config/database.options");
+const config = require("../config/configurate.options");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fileService = require("../services/fileService.js");
@@ -68,7 +68,7 @@ class UserController {
             if (isValidPassword) {
                 const token = jwt.sign(
                     { id: user.rows[0].id },
-                    config.secretKey,
+                    config.SECRET_TOKEN_KEY,
                     { expiresIn: "1h" }
                 );
                 res.json({
@@ -93,9 +93,13 @@ class UserController {
             id,
         ]);
         if (user?.rows[0]) {
-            const token = jwt.sign({ id: user.rows[0].id }, config.secretKey, {
-                expiresIn: "1h",
-            });
+            const token = jwt.sign(
+                { id: user.rows[0].id },
+                config.SECRET_TOKEN_KEY,
+                {
+                    expiresIn: "1h",
+                }
+            );
             res.json({
                 token,
                 user: {

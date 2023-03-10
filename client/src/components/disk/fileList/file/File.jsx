@@ -1,11 +1,11 @@
-import React from "react";
-import Card from "react-bootstrap/Card";
+import React, { useEffect } from "react";import Card from "react-bootstrap/Card";
 import { useDispatch, useSelector } from "react-redux";
 import {
     pushToStack,
     setCurrentDirectory,
 } from "../../../../store/file.reducer";
 import folderLogo from "./folder.png";
+import { getFiles } from "../../../../action/file";
 
 export const File = ({ file }) => {
     const { id, name, type } = file;
@@ -14,6 +14,10 @@ export const File = ({ file }) => {
     const currentDirectory = useSelector(
         (state) => state.files.currentDirectory
     );
+
+    useEffect(() => {
+        dispatch(getFiles(currentDirectory));
+    }, [currentDirectory, dispatch]);
 
     const openDirectoryHandler = () => {
         if (type === "dir") {

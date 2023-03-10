@@ -7,10 +7,7 @@ export const registration = async (login, password) => {
         password: password,
     };
     try {
-        const response = await axios.post(
-            "http://localhost:5000/api/auth/registration",
-            content
-        );
+        const response = await axios.post("/api/auth/registration", content);
         alert(response.data.message);
     } catch (error) {
         alert(error.response.data.message);
@@ -25,7 +22,7 @@ export const authorization = (login, password) => {
         };
         try {
             const response = await axios.post(
-                "http://localhost:5000/api/auth/authorization",
+                "/api/auth/authorization",
                 content
             );
             dispatch(setUser(response.data.user));
@@ -39,16 +36,11 @@ export const authorization = (login, password) => {
 export const tokenAuthorization = () => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(
-                "http://localhost:5000/api/auth/token",
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "token"
-                        )}`,
-                    },
-                }
-            );
+            const response = await axios.get("/api/auth/token", {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
             dispatch(setUser(response.data.user));
             localStorage.setItem("token", response.data.token);
         } catch (error) {}

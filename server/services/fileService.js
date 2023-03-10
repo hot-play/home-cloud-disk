@@ -1,13 +1,12 @@
-const fs = require("fs");
-const config = require("../config/config.json");
+const fs = require("fs");const config = require("../config/configurate.options");
 
 class FileService {
     createFolder(options) {
         let filePath = "";
         if (options.path) {
-            filePath = `${config.rootStorage}\\${options.user_id}\\${options.path}`;
+            filePath = `${config.ROOT_STORAGE}\\${options.user_id}\\${options.path}`;
         } else {
-            filePath = `${config.rootStorage}\\${options.user_id}`;
+            filePath = `${config.ROOT_STORAGE}\\${options.user_id}`;
         }
 
         return new Promise((resolve, reject) => {

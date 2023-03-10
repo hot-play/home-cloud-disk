@@ -1,4 +1,5 @@
-const jwt = require("jsonwebtoken");const config = require("../config/config.json");
+const jwt = require("jsonwebtoken");
+const config = require("../config/configurate.options");
 
 module.exports = (req, res, next) => {
     if (req.method === "OPTIONS") {
@@ -12,7 +13,7 @@ module.exports = (req, res, next) => {
                 .status(401)
                 .json({ message: "Окончание времени действия сессии" });
         }
-        const decode = jwt.verify(token, config.secretKey);
+        const decode = jwt.verify(token, config.SECRET_TOKEN_KEY);
         req.user = decode;
         next();
     } catch (error) {
