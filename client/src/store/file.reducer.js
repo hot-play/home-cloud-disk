@@ -26,7 +26,11 @@ export const fileReducer = (state = defaultState, action) => {
         case POP_FROM_STUCK:
             return {
                 ...state,
-                directoryStack: [...state.directoryStack.pop()],
+                directoryStack: [
+                    ...state.directoryStack.filter(
+                        (directory) => directory !== action.payload
+                    ),
+                ],
             };
         default:
             return state;
@@ -46,6 +50,7 @@ export const pushToStack = (directory) => ({
     type: PUSH_TO_STUCK,
     payload: directory,
 });
-export const popFromStack = () => ({
-    type: PUSH_TO_STUCK,
+export const popFromStack = (directory) => ({
+    type: POP_FROM_STUCK,
+    payload: directory,
 });

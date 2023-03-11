@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";import Form from "react-bootstrap/Form";
+import React, { useEffect } from "react";
+import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import { getFiles, uploadFile } from "../../action/file";
 

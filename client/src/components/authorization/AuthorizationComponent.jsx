@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import Container from "react-bootstrap/esm/Container";
+import React, { useState } from "react";import Container from "react-bootstrap/esm/Container";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
@@ -11,7 +10,7 @@ export const AuthorizationComponent = () => {
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
     return (
-        <Container className="col-4 mt-5">
+        <Container className="col-4">
             <InputGroup className="mb-3">
                 <Form.Control
                     value={login}

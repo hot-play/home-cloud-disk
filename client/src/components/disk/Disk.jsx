@@ -20,12 +20,8 @@ export const Disk = () => {
 
     const backClickHandler = () => {
         const backDirectoryId = directoryStack[directoryStack.length - 1];
-        dispatch(popFromStack());
-        if (typeof backDirectoryId === "undefined") {
-            dispatch(setCurrentDirectory(null));
-        } else {
-            dispatch(setCurrentDirectory(backDirectoryId));
-        }
+        dispatch(popFromStack(backDirectoryId));
+        dispatch(setCurrentDirectory(backDirectoryId));
     };
 
     return (
@@ -41,6 +37,7 @@ export const Disk = () => {
                 <CreateFileModal />
                 <FileInput />
             </div>
+            <div>{}</div>
             <FileList />
         </div>
     );

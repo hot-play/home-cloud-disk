@@ -1,4 +1,5 @@
-import React from "react";import Container from "react-bootstrap/Container";
+import React from "react";
+import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { NavLink } from "react-router-dom";
@@ -10,14 +11,14 @@ export const NavbarComponent = () => {
     const dispatch = useDispatch();
 
     return (
-        <Navbar bg="dark" variant="dark" expand="lg">
+        <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
             <Container>
                 <NavLink className="navbar-brand" to="/">
                     Home-cloud
                 </NavLink>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
+                    <Nav className="ms-auto">
                         {!isAuth && (
                             <Nav.Item>
                                 <NavLink
