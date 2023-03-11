@@ -6,6 +6,6 @@ class File {
     path = "";
     user_id = 0;
     parent_id = 0;
-};
+}
 
 module.exports = File;

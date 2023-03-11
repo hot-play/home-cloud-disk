@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import Button from "react-bootstrap/Button";
+import React, { useState, useEffect } from "react";import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import { createFile } from "../../action/file";
+import { getFiles } from "../../action/file";
 
 export const CreateFileModal = () => {
     const [fileName, setFileName] = useState("");
@@ -20,15 +20,20 @@ export const CreateFileModal = () => {
         dispatch(createFile(currentDirectory, fileName));
         setShow(false);
     };
+
+    useEffect(() => {
+        dispatch(getFiles(currentDirectory));
+    }, [currentDirectory, dispatch]);
+
     return (
         <>
-            <Button className="m-1" onClick={handleShow}>
-                Создать файл
+            <Button className="m-3" onClick={handleShow}>
+                Создать папку
             </Button>
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Создание файла</Modal.Title>
+                    <Modal.Title>Создание папка</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>

@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import Form from "react-bootstrap/Form";
+import React, { useEffect } from "react";import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import { getFiles, uploadFile } from "../../action/file";
 
@@ -25,7 +24,7 @@ export const FileInput = () => {
     };
 
     return (
-        <label className="row m-1">
+        <label className="m-3">
             <div className="btn btn-primary" label="">
                 Загрузить файл
             </div>

@@ -11,9 +11,17 @@ const SECRET_TOKEN_KEY = "home_cloud_storage";
 // ROOT_STORAGE: string , путь до хранилища загружаемых на сервер файлов
 const ROOT_STORAGE = "D:\\home-cloud-disk\\server\\storage";
 
+// MAX_FILE_SIZE: number , максимальный размер загружаемого файла
+const MAX_FILE_SIZE = 1073741824;
+
+// SESSION_TIME: string , время действия сессии
+const SESSION_TIME = "30m";
+
 module.exports = {
     SERVER_PORT,
     POSTGRESQL_PORT,
     SECRET_TOKEN_KEY,
     ROOT_STORAGE,
+    MAX_FILE_SIZE,
+    SESSION_TIME,
 };

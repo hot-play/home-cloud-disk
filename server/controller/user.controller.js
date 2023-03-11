@@ -2,76 +2,80 @@ const dataBase = require("../config/database.options");
 const config = require("../config/configurate.options");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const fileService = require("../services/fileService.js");
+const fileService = require("../services/fileService");
+const User = require("../models/User");
 
 class UserController {
     async createUser(req, res) {
-        const { login, password } = req.body;
-        if (login.length < 3 || login.length > 20) {
-            res.json({ message: "Логин некорректен" });
+        const userData = new User();
+        userData.login = req.body.login;
+        userData.password = req.body.password;
+
+        if (userData.login.length < 3 || userData.login.length > 20) {
+            return res.json({ message: "Логин некорректен" });
         }
-        if (password.length < 3 || password.length > 20) {
-            res.json({ message: "Пароль некорректен" });
+        if (userData.password.length < 3 || userData.password.length > 20) {
+            return res.json({ message: "Пароль некорректен" });
         }
-        const hashPassword = await bcrypt.hash(password, 10);
+        userData.password = await bcrypt.hash(userData.password, 10);
+
         const findUser = await dataBase.query(
             "select * from users where login = $1",
-            [login.toString().toLowerCase()]
+            [userData.login]
         );
 
         if (findUser.rows[0]?.login) {
-            res.json({ message: "Логин занят" });
-        } else {
-            const user = await dataBase.query(
-                "insert into users (login, password) values ($1, $2) returning *",
-                [login.toString().toLowerCase(), hashPassword]
-            );
-
-            await fileService.createFolder({
-                user_id: user.rows[0].id,
-                name: "",
-            });
-            res.json({ message: "Аккаунт создан" });
+            return res.json({ message: "Логин занят" });
         }
-    }
 
-    async getUser(req, res) {
-        const { login } = req.body;
         const user = await dataBase.query(
-            "select * from users where login = $1",
-            [login.toString().toLowerCase()]
+            "insert into users (login, password) values ($1, $2) returning *",
+            [userData.login, userData.password]
         );
-        res.json(user.rows[0]);
+        userData.id = user.rows[0].id;
+
+        await fileService.createFolder({
+            user_id: userData.id,
+            name: userData.id,
+        });
+
+        return res.json({ message: "Аккаунт создан" });
     }
 
     async deleteUser(req, res) {
-        const { login, password } = req.body;
-        const user = await dataBase.query(
-            "delete from users where login = $1",
-            [login.toString().toLowerCase()]
-        );
-        res.json(user.rows[0]);
+        const userData = new User();
+        userData.login = req.body.login;
+        userData.password = req.body.password;
+
+        await dataBase.query("delete from users where login = $1", [
+            userData.login,
+        ]);
+
+        return res.json({ message: "Пользователь удален" });
     }
 
     async authorizationUser(req, res) {
-        const { login, password } = req.body;
+        const userData = new User();
+        userData.login = req.body.login;
+        userData.password = req.body.password;
 
         const user = await dataBase.query(
             "select * from users where login = $1",
-            [login.toString().toLowerCase()]
+            [userData.login]
         );
+
         if (user.rows[0]?.login) {
             const isValidPassword = bcrypt.compareSync(
-                password,
+                userData.password,
                 user.rows[0].password
             );
             if (isValidPassword) {
                 const token = jwt.sign(
                     { id: user.rows[0].id },
                     config.SECRET_TOKEN_KEY,
-                    { expiresIn: "1h" }
+                    { expiresIn: config.SESSION_TIME }
                 );
-                res.json({
+                return res.json({
                     token,
                     user: {
                         id: user.rows[0].id,
@@ -81,26 +85,29 @@ class UserController {
                     },
                 });
             } else {
-                res.json({ message: "Неверный пароль" });
+                return res.json({ message: "Неверный пароль" });
             }
         } else {
-            res.json({ message: "Пользователь не найден" });
+            return res.json({ message: "Пользователь не найден" });
         }
     }
     async tokenAuthorizationUser(req, res) {
-        const { id } = req.user;
+        const userData = new User();
+        userData.id = req.user.id;
+
         const user = await dataBase.query("select * from users where id = $1", [
-            id,
+            userData.id,
         ]);
+
         if (user?.rows[0]) {
             const token = jwt.sign(
                 { id: user.rows[0].id },
                 config.SECRET_TOKEN_KEY,
                 {
-                    expiresIn: "1h",
+                    expiresIn: config.SESSION_TIME,
                 }
             );
-            res.json({
+            return res.json({
                 token,
                 user: {
                     id: user.rows[0].id,
@@ -110,7 +117,7 @@ class UserController {
                 },
             });
         } else {
-            res.json({ message: "Токен не проверен" });
+            return res.json({ message: "Токен не проверен" });
         }
     }
 }

@@ -29,11 +29,11 @@ export const Disk = () => {
     };
 
     return (
-        <div className="m-5 bg-dark rounded d-flex flex-row">
-            <div className="col-2 m-2 mt-5 d-flex flex-column">
+        <div className="m-5 bg-dark rounded">
+            <div>
                 <Button
                     onClick={() => backClickHandler()}
-                    className="m-1"
+                    className="m-3 col-1"
                     disabled={isBackButtonDisabled}
                 >
                     Назад

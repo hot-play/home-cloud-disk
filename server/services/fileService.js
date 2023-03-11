@@ -1,8 +1,9 @@
-const fs = require("fs");const config = require("../config/configurate.options");
+const fs = require("fs");
+const config = require("../config/configurate.options");
 
 class FileService {
     createFolder(options) {
-        let filePath = "";
+        let filePath;
         if (options.path) {
             filePath = `${config.ROOT_STORAGE}\\${options.user_id}\\${options.path}`;
         } else {
@@ -13,11 +14,14 @@ class FileService {
             try {
                 if (!fs.existsSync(filePath)) {
                     fs.mkdirSync(filePath);
-                    return resolve({ message: "Создано" });
+                    return resolve({ message: "Папка создан" });
                 } else {
-                    return reject({ message: "Файл уже существует" });
+                    return reject({
+                        message: "Папка или файл с таким именем уже существует",
+                    });
                 }
             } catch (error) {
+                console.log(error);
                 return reject({ message: "Ошибка создания" });
             }
         });

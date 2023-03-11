@@ -29,14 +29,17 @@ const App = () => {
                             element={<AuthorizationComponent />}
                         />
                         <Route
-                            path="/authorization"
-                            element={<Navigate to="/" replace />}
+                            path="*"
+                            element={<Navigate to="/authorization" replace />}
                         />
                     </Routes>
                 ) : (
                     <Routes>
-                        <Route path="/" element={<Disk />} />
-                        <Route path="*" element={<Navigate to="/" replace />} />
+                        <Route path="/storage" element={<Disk />} />
+                        <Route
+                            path="*"
+                            element={<Navigate to="/storage" replace />}
+                        />
                     </Routes>
                 )}
             </div>

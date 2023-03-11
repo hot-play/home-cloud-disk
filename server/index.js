@@ -1,5 +1,4 @@
-const express = require("express");
-const userRouter = require("./routes/user.routes");
+const express = require("express");const userRouter = require("./routes/user.routes");
 const fileRouter = require("./routes/file.routes");
 const corsMiddleware = require("./middleware/cors.middleware");
 const fileUpload = require("express-fileupload");

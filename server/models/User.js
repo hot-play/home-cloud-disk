@@ -1,7 +1,9 @@
+const config = require("../config/configurate.options");
 class User {
+    id = 0;
     login = "default";
     password = "default";
-    diskSpace = 0;
+    diskSpace = config.diskSpace;
     usedSpace = 0;
 }
 

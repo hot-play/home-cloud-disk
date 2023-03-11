@@ -5,6 +5,7 @@ create table files(
      link varchar(255),
      size decimal,
      path varchar(255),
+     date date default current_date,
      user_id integer,
      parent_id integer,
      foreign key (user_id) references users (id)

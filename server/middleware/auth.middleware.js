@@ -1,5 +1,4 @@
-const jwt = require("jsonwebtoken");
-const config = require("../config/configurate.options");
+const jwt = require("jsonwebtoken");const config = require("../config/configurate.options");
 
 module.exports = (req, res, next) => {
     if (req.method === "OPTIONS") {
@@ -11,7 +10,7 @@ module.exports = (req, res, next) => {
         if (!token) {
             return res
                 .status(401)
-                .json({ message: "Окончание времени действия сессии" });
+                .json({ message: "Неудалось автоматически авторизоваться" });
         }
         const decode = jwt.verify(token, config.SECRET_TOKEN_KEY);
         req.user = decode;
