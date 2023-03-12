@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";import { NavbarComponent } from "./components/navbar/NavbarComponent";
+import React, { useEffect } from "react";
+import { NavbarComponent } from "./components/user-interface/NavbarComponent";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { RegistrationComponent } from "./components/authorization/RegistrationComponent";
 import { AuthorizationComponent } from "./components/authorization/AuthorizationComponent";
@@ -12,7 +13,7 @@ const App = () => {
 
     useEffect(() => {
         dispatch(tokenAuthorization());
-    }, []);
+    }, [dispatch]);
 
     return (
         <BrowserRouter>

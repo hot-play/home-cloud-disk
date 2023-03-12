@@ -18,12 +18,12 @@ export const CreateFileModal = () => {
     const handleShow = () => setShow(true);
 
     const createFileHandler = () => {
-        dispatch(createFile(currentDirectory, fileName));
+        dispatch(createFile(currentDirectory.id, fileName));
         setShow(false);
     };
 
     useEffect(() => {
-        dispatch(getFiles(currentDirectory));
+        dispatch(getFiles(currentDirectory.id));
     }, [currentDirectory, dispatch]);
 
     return (

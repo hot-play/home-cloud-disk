@@ -12,6 +12,7 @@ export const FileList = () => {
                     <th>#</th>
                     <th>Тип</th>
                     <th>Название</th>
+                    <th></th>
                     <th>Дата создания</th>
                     <th>Размер</th>
                 </tr>

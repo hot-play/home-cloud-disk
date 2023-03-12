@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";import Button from "react-bootstrap/esm/Button";
+import React, { useEffect } from "react";
+import Button from "react-bootstrap/esm/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { getFiles } from "../../action/file";
 import { popFromStack, setCurrentDirectory } from "../../store/file.reducer";
@@ -11,17 +12,18 @@ export const Disk = () => {
     const currentDirectory = useSelector(
         (state) => state.files.currentDirectory
     );
-    const isBackButtonDisabled = true ? currentDirectory === null : false;
+    const isBackButtonDisabled = true ? currentDirectory.id === 0 : false;
     const directoryStack = useSelector((state) => state.files.directoryStack);
 
     useEffect(() => {
-        dispatch(getFiles(currentDirectory));
+        dispatch(getFiles(currentDirectory.id));
     }, [currentDirectory, dispatch]);
 
     const backClickHandler = () => {
-        const backDirectoryId = directoryStack[directoryStack.length - 1];
-        dispatch(popFromStack(backDirectoryId));
-        dispatch(setCurrentDirectory(backDirectoryId));
+        dispatch(popFromStack(directoryStack[directoryStack.length - 1].id));
+        dispatch(
+            setCurrentDirectory(directoryStack[directoryStack.length - 2])
+        );
     };
 
     return (
@@ -36,8 +38,23 @@ export const Disk = () => {
                 </Button>
                 <CreateFileModal />
                 <FileInput />
+                <div className="m-3 bg-white rounded d-flex">
+                    {directoryStack.map((directory, index) => {
+                        if (index === 0) {
+                            return (
+                                <div key={index} className="m-2 ms-2 me-0">
+                                    {directory.name}
+                                </div>
+                            );
+                        }
+                        return (
+                            <div key={index} className="m-2 ms-0 me-0">
+                                /{directory.name}
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
-            <div>{}</div>
             <FileList />
         </div>
     );

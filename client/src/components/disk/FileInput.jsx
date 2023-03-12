@@ -11,7 +11,7 @@ export const FileInput = () => {
     );
 
     useEffect(() => {
-        dispatch(getFiles(currentDirectory));
+        dispatch(getFiles(currentDirectory.id));
     }, [currentDirectory, dispatch]);
 
     const style = {
@@ -21,7 +21,7 @@ export const FileInput = () => {
     const fileUploadedHandler = (files) => {
         const file = files[0];
         console.log(file);
-        dispatch(uploadFile(file, currentDirectory));
+        dispatch(uploadFile(file, currentDirectory.id));
     };
 
     return (

@@ -1,37 +1,55 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
     pushToStack,
     setCurrentDirectory,
 } from "../../../../store/file.reducer";
+import { FileDropdown } from "./fileDropdown";
 
 export const File = ({ reactId, file }) => {
     const { id, name, type, date, size } = file;
     const dispatch = useDispatch();
-    const currentDirectory = useSelector(
-        (state) => state.files.currentDirectory
-    );
 
     const openDirectoryHandler = () => {
         if (type === "dir") {
-            dispatch(pushToStack(currentDirectory));
-            dispatch(setCurrentDirectory(id));
+            dispatch(setCurrentDirectory({ id, name }));
+            dispatch(pushToStack({ id, name }));
         }
     };
 
     return (
-        <tr
-            onClick={() => {
-                openDirectoryHandler();
-            }}
-            role="button"
-        >
-            <td className="col-1">{reactId}</td>
-            <td className="col-1">{type}</td>
-            <td className="col-7">
+        <tr>
+            <td
+                className=""
+                onClick={() => {
+                    openDirectoryHandler();
+                }}
+                role="button"
+            >
+                {reactId}
+            </td>
+            <td
+                className=""
+                onClick={() => {
+                    openDirectoryHandler();
+                }}
+                role="button"
+            >
+                {type}
+            </td>
+            <td
+                className="col-9"
+                onClick={() => {
+                    openDirectoryHandler();
+                }}
+                role="button"
+            >
                 {name.length > 80 ? `${name.substr(0, 80)}...` : name}
             </td>
-            <td className="col-2">{date.slice(0, 10)}</td>
+            <td className="">
+                <FileDropdown fileId={id} />
+            </td>
+            <td className="col-1">{date.slice(0, 10)}</td>
             <td className="col-1">{size > 0 ? `${size} байт` : ""}</td>
         </tr>
         // <Card

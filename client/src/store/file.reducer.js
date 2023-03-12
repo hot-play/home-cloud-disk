@@ -6,8 +6,16 @@ const POP_FROM_STUCK = "POP_FROM_STUCK";
 
 const defaultState = {
     files: [],
-    currentDirectory: null,
-    directoryStack: [],
+    currentDirectory: {
+        id: 0,
+        name: "Home",
+    },
+    directoryStack: [
+        {
+            id: 0,
+            name: "Home",
+        },
+    ],
 };
 
 export const fileReducer = (state = defaultState, action) => {
@@ -28,7 +36,7 @@ export const fileReducer = (state = defaultState, action) => {
                 ...state,
                 directoryStack: [
                     ...state.directoryStack.filter(
-                        (directory) => directory !== action.payload
+                        (directory) => directory.id !== action.payload
                     ),
                 ],
             };

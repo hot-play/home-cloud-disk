@@ -1,4 +1,5 @@
-import axios from "axios";import { addFile, setFiles } from "../store/file.reducer";
+import axios from "axios";
+import { addFile, setFiles } from "../store/file.reducer";
 
 export const getFiles = (directoryId) => {
     return async (dispatch) => {
