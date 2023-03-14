@@ -1,5 +1,4 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React from "react";import { useDispatch } from "react-redux";
 import {
     pushToStack,
     setCurrentDirectory,
@@ -47,7 +46,7 @@ export const File = ({ reactId, file }) => {
                 {name.length > 80 ? `${name.substr(0, 80)}...` : name}
             </td>
             <td className="">
-                <FileDropdown fileId={id} />
+                <FileDropdown file={file} />
             </td>
             <td className="col-1">{date.slice(0, 10)}</td>
             <td className="col-1">{size > 0 ? `${size} байт` : ""}</td>

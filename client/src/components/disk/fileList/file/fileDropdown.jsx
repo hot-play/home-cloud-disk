@@ -1,5 +1,20 @@
 import Dropdown from "react-bootstrap/Dropdown";
-export const FileDropdown = ({ fileId }) => {
+import { useDispatch } from "react-redux";
+import { deleteFile, downloadFile } from "../../../../action/file";
+export const FileDropdown = ({ file }) => {
+    const { id, type } = file;
+    const dispatch = useDispatch();
+    const downloadClickHandler = (event) => {
+        event.stopPropagation();
+        downloadFile(file);
+    };
+
+    const deleteFileHandler = (event) => {
+        event.stopPropagation();
+        console.log("1");
+        dispatch(deleteFile(id));
+    };
+
     return (
         <Dropdown>
             <Dropdown.Toggle
@@ -8,11 +23,17 @@ export const FileDropdown = ({ fileId }) => {
             ></Dropdown.Toggle>
 
             <Dropdown.Menu>
-                <Dropdown.Item href="#/action-1">Свойства</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">
-                    Изменить название
+                {type !== "dir" && (
+                    <Dropdown.Item
+                        onClick={(event) => downloadClickHandler(event)}
+                    >
+                        Скачать
+                    </Dropdown.Item>
+                )}
+                {/* <Dropdown.Item>Изменить название</Dropdown.Item> */}
+                <Dropdown.Item onClick={(event) => deleteFileHandler(event)}>
+                    Удалить
                 </Dropdown.Item>
-                <Dropdown.Item href="#/action-3">Удалить</Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
     );

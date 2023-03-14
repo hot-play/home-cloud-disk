@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import Button from "react-bootstrap/Button";
+import React, { useState, useEffect } from "react";import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
-import { createFile } from "../../action/file";
-import { getFiles } from "../../action/file";
+import { createFile } from "../../../action/file";
+import { getFiles } from "../../../action/file";
 
 export const CreateFileModal = () => {
     const [fileName, setFileName] = useState("");

@@ -26,6 +26,17 @@ class FileService {
             }
         });
     }
+    removeFile(file) {
+        const path = this.getPath(file);
+        if (file.type === "dir") {
+            fs.rmdirSync(path);
+        } else {
+            fs.unlinkSync(path);
+        }
+    }
+    getPath(file) {
+        return `${config.ROOT_STORAGE}\\${file.user_id}\\${file.path}`;
+    }
 }
 
 module.exports = new FileService();

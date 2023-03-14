@@ -1,5 +1,4 @@
-import axios from "axios";
-import { addFile, setFiles } from "../store/file.reducer";
+import axios from "axios";import { addFile, setFiles, removeFile } from "../store/file.reducer";
 
 export const getFiles = (directoryId) => {
     return async (dispatch) => {
@@ -55,7 +54,7 @@ export const uploadFile = (file, directoryId) => {
             if (directoryId) {
                 formData.append("parent_id", directoryId);
             }
-            console.log(formData.files);
+            formData.append("name", file.name);
             const response = await axios.post("/api/files/upload", formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -83,4 +82,39 @@ export const uploadFile = (file, directoryId) => {
             alert(error.response.data.message);
         }
     };
+};
+
+export const deleteFile = (fileId) => {
+    return async (dispatch) => {
+        try {
+            console.log(fileId);
+            const response = await axios.delete(`/api/files?id=${fileId}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            dispatch(removeFile(fileId));
+            alert(response.data.message);
+        } catch (error) {
+            alert(error.response.data.message);
+        }
+    };
+};
+
+export const downloadFile = async (file) => {
+    const response = await fetch(`/api/files/download?id=${file.id}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+    });
+    if (response.status === 200) {
+        const blob = await response.blob();
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.download = file.name;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    }
 };

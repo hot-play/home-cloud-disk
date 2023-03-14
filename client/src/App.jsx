@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { NavbarComponent } from "./components/user-interface/NavbarComponent";
+import React, { useEffect } from "react";import { NavbarComponent } from "./components/user-interface/NavbarComponent";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { RegistrationComponent } from "./components/authorization/RegistrationComponent";
 import { AuthorizationComponent } from "./components/authorization/AuthorizationComponent";
@@ -17,7 +16,7 @@ const App = () => {
 
     return (
         <BrowserRouter>
-            <div className="app">
+            <div className="app m-0">
                 <NavbarComponent />
                 {!isAuth ? (
                     <Routes>
