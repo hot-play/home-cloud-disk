@@ -1,5 +1,4 @@
-const dataBase = require("../config/database.options");
-const config = require("../config/configurate.options");
+const dataBase = require("../config/database.options");const config = require("../config/configurate.options");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fileService = require("../services/fileService");
@@ -39,7 +38,20 @@ class UserController {
             name: userData.id,
         });
 
-        return res.json({ message: "Аккаунт создан" });
+        const token = jwt.sign({ id: userData.id }, config.SECRET_TOKEN_KEY, {
+            expiresIn: config.SESSION_TIME,
+        });
+
+        return res.status(201).json({
+            token,
+            user: {
+                id: user.rows[0].id,
+                login: user.rows[0].login,
+                diskSpace: user.rows[0].diskspace,
+                usedSpace: user.rows[0].usedspace,
+            },
+            message: "Аккаунт создан",
+        });
     }
 
     async deleteUser(req, res) {

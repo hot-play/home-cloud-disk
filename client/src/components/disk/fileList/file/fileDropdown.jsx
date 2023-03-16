@@ -1,6 +1,6 @@
-import Dropdown from "react-bootstrap/Dropdown";
-import { useDispatch } from "react-redux";
+import Dropdown from "react-bootstrap/Dropdown";import { useDispatch } from "react-redux";
 import { deleteFile, downloadFile } from "../../../../action/file";
+
 export const FileDropdown = ({ file }) => {
     const { id, type } = file;
     const dispatch = useDispatch();
@@ -11,7 +11,6 @@ export const FileDropdown = ({ file }) => {
 
     const deleteFileHandler = (event) => {
         event.stopPropagation();
-        console.log("1");
         dispatch(deleteFile(id));
     };
 

@@ -1,17 +1,29 @@
 import axios from "axios";
 import { setUser } from "../store/user.reducer";
+import { showDefaultToast } from "../components/toast/default-toast";
+import { showErrorToast } from "../components/toast/error-toast";
 
-export const registration = async (login, password) => {
-    const content = {
-        login: login,
-        password: password,
+export const registration = (login, password) => {
+    return async (dispatch) => {
+        const content = {
+            login: login,
+            password: password,
+        };
+        try {
+            const response = await axios.post(
+                "/api/auth/registration",
+                content
+            );
+            if (response.status === 201) {
+                dispatch(setUser(response.data.user));
+                localStorage.setItem("token", response.data.token);
+                showDefaultToast(response.data.message);
+            }
+            showDefaultToast(response.data.message);
+        } catch (error) {
+            showErrorToast(error.response.data.message);
+        }
     };
-    try {
-        const response = await axios.post("/api/auth/registration", content);
-        alert(response.data.message);
-    } catch (error) {
-        alert(error.response.data.message);
-    }
 };
 
 export const authorization = (login, password) => {
@@ -28,7 +40,7 @@ export const authorization = (login, password) => {
             dispatch(setUser(response.data.user));
             localStorage.setItem("token", response.data.token);
         } catch (error) {
-            alert(error.response.data.message);
+            showErrorToast(error.response.data.message);
         }
     };
 };
