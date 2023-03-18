@@ -1,4 +1,5 @@
-import Dropdown from "react-bootstrap/Dropdown";import { useDispatch } from "react-redux";
+import Dropdown from "react-bootstrap/Dropdown";
+import { useDispatch } from "react-redux";
 import { deleteFile, downloadFile } from "../../../../action/file";
 
 export const FileDropdown = ({ file }) => {

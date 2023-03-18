@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";import Button from "react-bootstrap/Button";
+import React, { useState, useEffect } from "react";
+import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,7 +28,7 @@ export const CreateFileModal = () => {
 
     return (
         <>
-            <Button className="m-3" onClick={handleShow}>
+            <Button className="m-3" onClick={() => handleShow()}>
                 Создать папку
             </Button>
 
@@ -53,10 +54,13 @@ export const CreateFileModal = () => {
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={() => handleClose()}>
                         Отмена
                     </Button>
-                    <Button variant="primary" onClick={createFileHandler}>
+                    <Button
+                        variant="primary"
+                        onClick={() => createFileHandler()}
+                    >
                         Создать
                     </Button>
                 </Modal.Footer>

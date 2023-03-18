@@ -1,4 +1,5 @@
-import axios from "axios";import { addFile, setFiles, removeFile } from "../store/file.reducer";
+import axios from "axios";
+import { addFile, setFiles, removeFile } from "../store/file.reducer";
 import { showErrorToast } from "../components/toast/error-toast";
 
 export const getFiles = (directoryId) => {

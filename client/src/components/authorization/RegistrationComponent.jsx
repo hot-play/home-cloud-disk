@@ -10,6 +10,9 @@ export const RegistrationComponent = () => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
+    const registrationHandler = () => {
+        dispatch(registration(login, password));
+    };
     return (
         <Container className="col-4 mt-5">
             <InputGroup className="mb-3">
@@ -31,10 +34,7 @@ export const RegistrationComponent = () => {
                     aria-describedby="basic-addon2"
                 />
             </InputGroup>
-            <Button
-                className="dark"
-                onClick={() => dispatch(registration(login, password))}
-            >
+            <Button className="dark" onClick={() => registrationHandler()}>
                 Регистрация
             </Button>
         </Container>

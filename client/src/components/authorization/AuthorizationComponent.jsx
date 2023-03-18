@@ -10,6 +10,9 @@ export const AuthorizationComponent = () => {
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
     const dispatch = useDispatch();
+    const authorizationHandler = () => {
+        dispatch(authorization(login, password));
+    };
     return (
         <Container className="col-4 mt-5">
             <InputGroup className="mb-3">
@@ -31,10 +34,7 @@ export const AuthorizationComponent = () => {
                     aria-describedby="basic-addon2"
                 />
             </InputGroup>
-            <Button
-                className="dark"
-                onClick={() => dispatch(authorization(login, password))}
-            >
+            <Button className="dark" onClick={() => authorizationHandler()}>
                 Войти
             </Button>
         </Container>

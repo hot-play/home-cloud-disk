@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";import Button from "react-bootstrap/esm/Button";
+import React, { useEffect } from "react";
+import Button from "react-bootstrap/esm/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { getFiles } from "../../action/file";
 import { popFromStack, setCurrentDirectory } from "../../store/file.reducer";
